@@ -12,8 +12,8 @@ const Home = () => {
 
   useEffect(() => {
     // Initialize WebSocket connection
-    // const socket = new WebSocket("ws://localhost:3000/ws");
-    const socket = new WebSocket(process.env.NEXT_PUBLIC_WEB_SOCKET);
+    const socket = new WebSocket("ws://localhost:3000/ws");
+    // const socket = new WebSocket(process.env.NEXT_PUBLIC_WEB_SOCKET);
 
     socket.onopen = () => {
       console.log("WebSocket connected");
