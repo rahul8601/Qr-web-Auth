@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     // Initialize WebSocket connection
-    const socket = new WebSocket("ws://localhost:3000/ws");
+    const socket = new WebSocket("ws://192.168.2.4:3000/ws");
     // const socket = new WebSocket(process.env.NEXT_PUBLIC_WEB_SOCKET);
 
     socket.onopen = () => {
