@@ -1,6 +1,7 @@
 // pages/index.js
 import React, { useEffect, useState } from "react";
 import { useQRCode } from "next-qrcode";
+import Image from "next/image";
 
 const Home = () => {
   const { Canvas } = useQRCode();
@@ -82,10 +83,12 @@ const Home = () => {
         <>
           <h2 className="text-2xl font-semibold bg-red-300 p-4 rounded-lg mb-4 flex justify-center alight-center">
             Hello, Welcome {data?.name}
-            <img
+            <Image
               src={data?.picture}
               alt="Profile"
-              className="h-10 w-10 rounded-full"
+              className="rounded-full"
+              width={40}
+              height={40}
             />
           </h2>
           <p className="text-lg text-gray-600 mb-6">

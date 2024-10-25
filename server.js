@@ -13,9 +13,7 @@ app.prepare().then(() => {
   const server = express();
   server.use(express.json());
   const PORT = process.env.PORT || 3000;
-  const CLIENT_ID =
-    process.env.NEXT_PUBLIC_CLIENT_ID ||
-    "866664502341-g32hgoiqn4j7l4vv5o2o19ntfu8l6s80.apps.googleusercontent.com"; // Get this from Google console
+  const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID; // Get this from Google console
 
   const oAuth2Client = new OAuth2Client(CLIENT_ID);
   // Start HTTP server
