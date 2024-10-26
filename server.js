@@ -5,14 +5,14 @@ const { OAuth2Client } = require("google-auth-library");
 const WebSocket = require("ws");
 const { v4: uuidv4 } = require("uuid");
 
-const dev = process.env.NODE_ENV !== "production";
+const dev = process.env.NEXT_PUBLIC_NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
   server.use(express.json());
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.NEXT_PUBLIC_PORT || 3000;
   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID; // Get this from Google console
 
   const oAuth2Client = new OAuth2Client(CLIENT_ID);
