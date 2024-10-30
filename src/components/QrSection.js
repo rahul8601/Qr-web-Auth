@@ -44,11 +44,11 @@ const QrSection = ({ sessionId }) => {
 
               <p className="flex items-center">
                 2. Tap <b className="ml-1">Menu</b>
-                <span className="mx-1 border border-3 p-1 rounded-lg">
+                <span className="mx-1 border border-3 p-1 rounded-lg bg-[#F7F8FA]">
                   <BsThreeDotsVertical />
                 </span>
                 on Android, or <b className="ml-1">Settings</b>
-                <span className="mx-1 border border-3 p-1 rounded-lg">
+                <span className="mx-1 border border-3 p-1 rounded-lg bg-[#F7F8FA]">
                   <GrSettingsOption color="gray" />
                 </span>
                 on iPhone
@@ -63,7 +63,7 @@ const QrSection = ({ sessionId }) => {
             <div className="space-y-2">
               <a
                 href="#"
-                className=" hover:text-[#804BDF] underline flex justify-left items-center"
+                className=" hover:text-[#804BDF] border-b-[2px] border-[#A16EFD] w-[210px]  flex justify-left items-center"
               >
                 Need help getting started?{" "}
                 <LuArrowUpRight style={{ marginLeft: 2 }} />
@@ -72,7 +72,7 @@ const QrSection = ({ sessionId }) => {
 
               <a
                 href="#"
-                className="hover:text-[#804BDF] underline flex justify-left items-center"
+                className="hover:text-[#804BDF] border-b-[2px] border-[#A16EFD] w-[210px] flex justify-left items-center"
               >
                 Log in with phone number{" "}
                 <MdKeyboardArrowRight size={20} style={{ marginLeft: 2 }} />

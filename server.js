@@ -26,18 +26,41 @@ app.prepare().then(() => {
   const sockets = {}; // Store WebSocket connections
 
   wss.on("connection", (ws) => {
-    const sessionId = uuidv4();
+    let sessionId = uuidv4(); // Initial session ID
     sockets[sessionId] = ws;
+
     console.log(
       `WebSocket connection established with sessionId: ${sessionId}`
     );
 
-    // Send the sessionId to the client
+    // Send the initial session ID to the client
     ws.send(JSON.stringify({ sessionId }));
 
+    // Function to generate a new session ID and update the client
+    const generateNewSessionId = () => {
+      // Remove the old session ID from the sockets store
+      delete sockets[sessionId];
+
+      // Generate a new session ID and store it
+      sessionId = uuidv4();
+      sockets[sessionId] = ws;
+
+      console.log(`New sessionId generated: ${sessionId}`);
+
+      // Send the new session ID to the client
+      ws.send(JSON.stringify({ sessionId }));
+    };
+
+    // Generate a new session ID every 1 minute
+    const intervalId = setInterval(generateNewSessionId, 60000); // 60 seconds
+
+    // Handle WebSocket close event
     ws.on("close", () => {
       console.log(`WebSocket connection closed for sessionId: ${sessionId}`);
+
+      // Cleanup: Remove session and clear interval
       delete sockets[sessionId];
+      clearInterval(intervalId);
     });
   });
 
