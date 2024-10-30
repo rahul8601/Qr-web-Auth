@@ -8,7 +8,9 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { GrSettingsOption } from "react-icons/gr";
 import { MdLockOutline } from "react-icons/md";
 
-const QrSection = ({ sesstionId }) => {
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+const QrSection = ({ sessionId }) => {
   const { Canvas } = useQRCode();
   return (
     <>
@@ -79,24 +81,30 @@ const QrSection = ({ sesstionId }) => {
           </div>
 
           {/* Right Section: QR Code */}
-          <div className="flex justify-center items-center bg-gray-100 rounded-lg">
-            <Canvas
-              text={sesstionId}
-              logo={{
-                src: "/mapzot.jpg",
-                options: { width: 46 },
-              }}
-              options={{
-                errorCorrectionLevel: "M",
-                //   margin: 3,
-                scale: 4,
-                width: 300,
-                color: {
-                  // dark: "#010599FF",
-                  // light: "#FFFFFF",
-                },
-              }}
-            />
+          <div className="flex justify-center items-center  h-[250px] w-[250px] ">
+            {sessionId ? (
+              <Canvas
+                text={sessionId}
+                logo={{
+                  src: "/mapzot.jpg",
+                  options: { width: 46 },
+                }}
+                options={{
+                  errorCorrectionLevel: "M",
+                  //   margin: 3,
+                  //   scale: 4,
+                  width: 300,
+                  color: {
+                    // dark: "#010599FF",
+                    // light: "#FFFFFF",
+                  },
+                }}
+              />
+            ) : (
+              <div className="flex items-center justify-center w-[250px] h-[250px] bg-[#F4F5FA] ">
+                <AiOutlineLoading3Quarters className="text-6xl text-[#C6C2D6] animate-spin" />
+              </div>
+            )}
           </div>
         </div>
         <p className="flex justify-center items-center mt-5 mb-10">

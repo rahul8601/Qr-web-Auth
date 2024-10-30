@@ -1,14 +1,9 @@
 // pages/index.js
 import React, { useEffect, useState } from "react";
-import { useQRCode } from "next-qrcode";
 import QrSection from "@/components/QrSection";
-
 import UserDetails from "@/components/UserDetails";
-import QrSectionLoading from "@/components/QrSectionLoading";
 
 const Home = () => {
-  const { Canvas } = useQRCode();
-
   const [sessionId, setSessionId] = useState(null);
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [data, setData] = useState({});
@@ -17,6 +12,7 @@ const Home = () => {
   useEffect(() => {
     // Initialize WebSocket connection
     // const socket = new WebSocket("ws://localhost:3000/ws");
+
     const socket = new WebSocket(process.env.NEXT_PUBLIC_WEB_SOCKET);
 
     socket.onopen = () => {
@@ -47,26 +43,23 @@ const Home = () => {
       }
     };
   }, []);
-  // console.log({ data });
+
   return (
-    <div>
-      {!authenticatedUser ? (
-        sessionId ? (
+    <>
+      <div>
+        {!authenticatedUser ? (
           <>
             {/* Qr page  */}
-            <QrSection sesstionId={sessionId} />
+            <QrSection sessionId={sessionId} />
           </>
         ) : (
-          // QR page loding...
-          <QrSectionLoading />
-        )
-      ) : (
-        <>
-          {/* User details */}
-          <UserDetails data={data} authenticatedUser={authenticatedUser} />
-        </>
-      )}
-    </div>
+          <>
+            {/* User details */}
+            <UserDetails data={data} authenticatedUser={authenticatedUser} />
+          </>
+        )}
+      </div>
+    </>
   );
 };
 
