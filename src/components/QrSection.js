@@ -38,7 +38,7 @@ const QrSection = ({ sesstionId }) => {
               browser.
             </p>
             <div className="list-decimal list-inside text-gray-700 space-y-1">
-              <p>1. Open WhatsApp on your phone</p>
+              <p>1. Open MapZot.AI on your phone</p>
 
               <p className="flex items-center">
                 2. Tap <b className="ml-1">Menu</b>
