@@ -1,6 +1,10 @@
 // pages/index.js
 import React, { useEffect, useState } from "react";
 import { useQRCode } from "next-qrcode";
+import QrSection from "@/components/QrSection";
+
+import UserDetails from "@/components/UserDetails";
+import QrSectionLoading from "@/components/QrSectionLoading";
 
 const Home = () => {
   const { Canvas } = useQRCode();
@@ -45,59 +49,21 @@ const Home = () => {
   }, []);
   // console.log({ data });
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-      <h1 className="text-4xl font-bold text-gray-800 mb-6">
-        Web QR Code Authentication
-      </h1>
-
+    <div>
       {!authenticatedUser ? (
         sessionId ? (
           <>
-            <Canvas
-              text={sessionId}
-              logo={{
-                src: "/mapzot.jpg",
-                options: { width: 40 },
-              }}
-              options={{
-                errorCorrectionLevel: "M",
-                margin: 3,
-                scale: 4,
-                width: 200,
-                color: {
-                  dark: "#010599FF",
-                  light: "#FFFFFF",
-                },
-              }}
-            />
-
-            <p className="text-lg text-gray-600 mt-4">
-              Scan the QR code with your mobile app to authenticate.
-            </p>
+            {/* Qr page  */}
+            <QrSection sesstionId={sessionId} />
           </>
         ) : (
-          <p className="text-lg text-gray-600 mt-4">Generating session...</p>
+          // QR page loding...
+          <QrSectionLoading />
         )
       ) : (
         <>
-          <h2 className="text-2xl font-semibold bg-red-300 p-4 rounded-lg mb-4 flex justify-center alight-center">
-            Hello, Welcome {data?.name}
-          </h2>
-          <p className="text-lg text-gray-600 mb-6">
-            You are logged in from{" "}
-            <span className="font-bold text-gray-700 italic">
-              {data?.email}
-            </span>
-          </p>
-          <h2 className="text-xl font-medium text-gray-700">
-            Authenticated as User: {authenticatedUser}
-          </h2>
-          {/* <button
-            onClick={() => console.log("click Logout")}
-            className="mt-4 py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
-          >
-            Logout
-          </button> */}
+          {/* User details */}
+          <UserDetails data={data} authenticatedUser={authenticatedUser} />
         </>
       )}
     </div>
