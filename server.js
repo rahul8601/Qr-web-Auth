@@ -5,21 +5,38 @@ const { OAuth2Client } = require("google-auth-library");
 const WebSocket = require("ws");
 const { v4: uuidv4 } = require("uuid");
 const admin = require("firebase-admin");
-const serviceAccount = require("./src/utils/googleAnalytics.json");
+// const serviceAccount = require("./.firebase/googleAnalytics.json");
 
 const dev = process.env.NEXT_PUBLIC_NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
 
 app.prepare().then(() => {
   const server = express();
   server.use(express.json());
   const PORT = process.env.NEXT_PUBLIC_PORT || 3000;
   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID; // Get this from Google console
+  const firebaseCred = {
+    type: process.env.NEXT_PUBLIC_TYPE,
+    project_id: process.env.NEXT_PUBLIC_project_id,
+    private_key_id: process.env.NEXT_PUBLIC_private_key_id,
+    private_key: process.env.NEXT_PUBLIC_private_key,
+    client_email: process.env.NEXT_PUBLIC_client_email,
+    client_id: process.env.NEXT_PUBLIC_client_id,
+    auth_uri: process.env.NEXT_PUBLIC_auth_uri,
+    token_uri: process.env.NEXT_PUBLIC_token_uri,
+    auth_provider_x509_cert_url:
+      process.env.NEXT_PUBLIC_auth_provider_x509_cert_url,
+    client_x509_cert_url: process.env.NEXT_PUBLIC_client_x509_cert_url,
+    universe_domain: process.env.NEXT_PUBLIC_universe_domain,
+  };
+
+  const serviceAccount = firebaseCred;
+  console.log({ serviceAccount });
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
 
   const oAuth2Client = new OAuth2Client(CLIENT_ID);
   // Start HTTP server
@@ -77,9 +94,10 @@ app.prepare().then(() => {
   // API Route to authenticate from mobile
   server.post("/api/authenticate", async (req, res) => {
     const { sessionId, token } = req.body;
-
+    console.log({ token });
     try {
       const decodedToken = await admin.auth().verifyIdToken(token);
+      console.log({ decodedToken });
       // Verify the ID token with Google
       // const ticket = await oAuth2Client.verifyIdToken({
       //   idToken,
