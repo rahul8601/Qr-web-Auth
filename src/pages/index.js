@@ -5,7 +5,7 @@ import UserDetails from "@/components/UserDetails";
 
 const Home = () => {
   const [sessionId, setSessionId] = useState(null);
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState();
   const [data, setData] = useState({});
   const [ws, setWs] = useState(null);
 
@@ -26,7 +26,7 @@ const Home = () => {
       }
       if (data.success) {
         setData(data?.payload);
-        setAuthenticatedUser(data?.payload?.sub);
+        setAuthenticatedUser(data?.token);
         socket.close();
       }
     };
