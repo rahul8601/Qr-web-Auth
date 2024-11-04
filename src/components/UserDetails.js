@@ -11,7 +11,7 @@ const UserDetails = ({ authenticatedUser, data }) => {
         <span className="font-bold text-gray-700 italic">{data?.email}</span>
       </p>
       <h2 className="text-xl font-medium text-gray-700">
-        Authenticated as User: {authenticatedUser}
+        Authenticated as User: {data?.uid}
       </h2>
       {/* <button
             onClick={() => console.log("click Logout")}s

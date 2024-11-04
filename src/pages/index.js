@@ -5,7 +5,7 @@ import UserDetails from "@/components/UserDetails";
 
 const Home = () => {
   const [sessionId, setSessionId] = useState(null);
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState();
   const [data, setData] = useState({});
   const [ws, setWs] = useState(null);
 
@@ -21,12 +21,14 @@ const Home = () => {
 
     socket.onmessage = (message) => {
       const data = JSON.parse(message.data);
+      console.log({ data });
+
       if (data.sessionId) {
         setSessionId(data.sessionId);
       }
       if (data.success) {
         setData(data?.payload);
-        setAuthenticatedUser(data?.payload?.sub);
+        setAuthenticatedUser(data?.token);
         socket.close();
       }
     };

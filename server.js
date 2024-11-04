@@ -4,10 +4,16 @@ const next = require("next");
 const { OAuth2Client } = require("google-auth-library");
 const WebSocket = require("ws");
 const { v4: uuidv4 } = require("uuid");
+const admin = require("firebase-admin");
+const serviceAccount = require("./src/utils/googleAnalytics.json");
 
 const dev = process.env.NEXT_PUBLIC_NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 app.prepare().then(() => {
   const server = express();
@@ -52,7 +58,7 @@ app.prepare().then(() => {
     };
 
     // Generate a new session ID every 1 minute
-    const intervalId = setInterval(generateNewSessionId, 60000); // 60 seconds
+    const intervalId = setInterval(generateNewSessionId, 15000); // 60 seconds
 
     // Handle WebSocket close event
     ws.on("close", () => {
@@ -64,22 +70,28 @@ app.prepare().then(() => {
     });
   });
 
+  server.get("/test", async (req, res) => {
+    res.json({ success: true, message: "Working" });
+  });
+
   // API Route to authenticate from mobile
   server.post("/api/authenticate", async (req, res) => {
-    const { sessionId, idToken } = req.body;
+    const { sessionId, token } = req.body;
+
     try {
+      const decodedToken = await admin.auth().verifyIdToken(token);
       // Verify the ID token with Google
-      const ticket = await oAuth2Client.verifyIdToken({
-        idToken,
-        audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
-      });
+      // const ticket = await oAuth2Client.verifyIdToken({
+      //   idToken,
+      //   audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+      // });
 
-      const payload = ticket.getPayload();
-
-      // Proceed with your logic (e.g., find or create user in your DB)
+      // const payload = ticket.getPayload();
 
       if (sockets[sessionId]) {
-        sockets[sessionId].send(JSON.stringify({ success: true, payload }));
+        sockets[sessionId].send(
+          JSON.stringify({ success: true, payload: decodedToken, token })
+        );
         res.json({ success: true });
       } else {
         res.json({ success: false, message: "Invalid session ID" });
