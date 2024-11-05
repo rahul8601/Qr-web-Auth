@@ -1,6 +1,7 @@
 import React from "react";
 
 const UserDetails = ({ authenticatedUser, data }) => {
+  // console.log({ data });
   return (
     <div className="h-screen bg-[#F4F5FA] flex flex-col justify-center items-center">
       <h2 className="text-2xl font-semibold bg-[#9155FD] p-4 rounded-lg mb-4 flex justify-center alight-center ">
